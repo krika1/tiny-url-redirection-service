@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyUrl.RedirectionService", "TinyUrl.RedirectionService\TinyUrl.RedirectionService.csproj", "{2EC8A202-6BE4-4402-AC59-281A50A99F39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyUrl.RedirectionService.Bussines", "TinyUrl.RedirectionService.Bussines\TinyUrl.RedirectionService.Bussines.csproj", "{11058C64-68C1-4441-B085-8243DA7FFC5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyUrl.RedirectionService.Data", "TinyUrl.RedirectionService.Data\TinyUrl.RedirectionService.Data.csproj", "{93D7A380-DA95-4B80-86F0-06ACBB23345E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyUrl.RedirectionService.Infrastructure", "TinyUrl.RedirectionService.Infrastructure\TinyUrl.RedirectionService.Infrastructure.csproj", "{988C1FA6-EECC-4607-A50B-37FFBA1558AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyUrl.RedirectionService.UnitTests", "TinyUrl.RedirectionService.UnitTests\TinyUrl.RedirectionService.UnitTests.csproj", "{037D3BA7-1D8C-4A0E-B8EF-78522E7D427E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EC8A202-6BE4-4402-AC59-281A50A99F39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EC8A202-6BE4-4402-AC59-281A50A99F39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EC8A202-6BE4-4402-AC59-281A50A99F39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EC8A202-6BE4-4402-AC59-281A50A99F39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11058C64-68C1-4441-B085-8243DA7FFC5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11058C64-68C1-4441-B085-8243DA7FFC5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11058C64-68C1-4441-B085-8243DA7FFC5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11058C64-68C1-4441-B085-8243DA7FFC5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93D7A380-DA95-4B80-86F0-06ACBB23345E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93D7A380-DA95-4B80-86F0-06ACBB23345E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93D7A380-DA95-4B80-86F0-06ACBB23345E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93D7A380-DA95-4B80-86F0-06ACBB23345E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{988C1FA6-EECC-4607-A50B-37FFBA1558AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{988C1FA6-EECC-4607-A50B-37FFBA1558AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{988C1FA6-EECC-4607-A50B-37FFBA1558AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{988C1FA6-EECC-4607-A50B-37FFBA1558AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{037D3BA7-1D8C-4A0E-B8EF-78522E7D427E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{037D3BA7-1D8C-4A0E-B8EF-78522E7D427E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{037D3BA7-1D8C-4A0E-B8EF-78522E7D427E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{037D3BA7-1D8C-4A0E-B8EF-78522E7D427E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B9BDD51-5A69-457C-84F8-9CE36D3CAC45}
+	EndGlobalSection
+EndGlobal
