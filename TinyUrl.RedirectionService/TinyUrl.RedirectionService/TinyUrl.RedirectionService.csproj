@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\TinyUrl.RedirectionService.Bussines\TinyUrl.RedirectionService.Bussines.csproj" />
+    <ProjectReference Include="..\TinyUrl.RedirectionService.Data\TinyUrl.RedirectionService.Data.csproj" />
+    <ProjectReference Include="..\TinyUrl.RedirectionService.Infrastructure\TinyUrl.RedirectionService.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

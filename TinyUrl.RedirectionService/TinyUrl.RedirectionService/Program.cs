@@ -1,4 +1,13 @@
 
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using TinyUrl.RedirectionService.Bussines.Services;
+using TinyUrl.RedirectionService.Data.Repositories;
+using TinyUrl.RedirectionService.Infrastructure.Context;
+using TinyUrl.RedirectionService.Infrastructure.Contracts.Options;
+using TinyUrl.RedirectionService.Infrastructure.Repositories;
+using TinyUrl.RedirectionService.Infrastructure.Services;
+
 namespace TinyUrl.RedirectionService
 {
     public class Program
@@ -13,6 +22,20 @@ namespace TinyUrl.RedirectionService
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.Configure<MongoDbOptions>(
+                builder.Configuration.GetSection("MongoDbOptions"));
+
+            builder.Services.AddSingleton<IMongoClient>(serviceProvider =>
+            {
+                var options = serviceProvider.GetRequiredService<IOptions<MongoDbOptions>>().Value;
+                return new MongoClient(options.ConnectionString);
+            });
+
+            builder.Services.AddScoped<MongoDbContext>();
+
+            builder.Services.AddScoped<IUrlMappingService, UrlMappingService>();
+            builder.Services.AddScoped<IUrlMappingRepository, UrlMappingRepository>();
 
             var app = builder.Build();
 
