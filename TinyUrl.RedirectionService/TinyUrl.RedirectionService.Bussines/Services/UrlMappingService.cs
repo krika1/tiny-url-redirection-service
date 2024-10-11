@@ -1,4 +1,6 @@
-﻿using TinyUrl.RedirectionService.Infrastructure.Entites;
+﻿using TinyUrl.RedirectionService.Infrastructure.Common;
+using TinyUrl.RedirectionService.Infrastructure.Entites;
+using TinyUrl.RedirectionService.Infrastructure.Exceptions;
 using TinyUrl.RedirectionService.Infrastructure.Repositories;
 using TinyUrl.RedirectionService.Infrastructure.Services;
 
@@ -28,6 +30,8 @@ namespace TinyUrl.RedirectionService.Bussines.Services
                 _cacheService.SetValue(shortUrl, urlMapping);
             }
 
+            CheckExpiringDate(urlMapping!);
+
             return urlMapping.LongUrl!;
         }
 
@@ -36,6 +40,14 @@ namespace TinyUrl.RedirectionService.Bussines.Services
             var urlMapping = _cacheService.GetValue(shortUrl);
 
             return urlMapping as UrlMapping;
+        }
+
+        private void CheckExpiringDate(UrlMapping mapping)
+        {
+            if (mapping.ExpirationDate <= DateTime.Now)
+            {
+                throw new ShortUrlExpiredException(ErrorMessages.ShortUrlExpiredErrorMessage);
+            }
         }
     }
 }

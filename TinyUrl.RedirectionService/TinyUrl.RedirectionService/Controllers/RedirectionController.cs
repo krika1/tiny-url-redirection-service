@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TinyUrl.RedirectionService.Infrastructure.Common;
+using TinyUrl.RedirectionService.Infrastructure.Contracts.Responses;
+using TinyUrl.RedirectionService.Infrastructure.Exceptions;
 using TinyUrl.RedirectionService.Infrastructure.Services;
 
 namespace TinyUrl.RedirectionService.Controllers
@@ -15,14 +18,27 @@ namespace TinyUrl.RedirectionService.Controllers
 
         [HttpGet("{shortUrl}")]
         [ProducesResponseType(StatusCodes.Status302Found)]
+        [ProducesResponseType(StatusCodes.Status410Gone)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> RedirectToLongUrlAsync([FromRoute] string shortUrl)
         {
-            var longUrl = await _urlMappingService.GetLongUrlAsync(Uri.UnescapeDataString(shortUrl)).ConfigureAwait(false);
+            try
+            {
+                var longUrl = await _urlMappingService.GetLongUrlAsync(Uri.UnescapeDataString(shortUrl)).ConfigureAwait(false);
 
-            if (longUrl is null) return NotFound();
+                if (longUrl is null) return NotFound();
 
-            return Redirect(longUrl);
+                return Redirect(longUrl);
+            }
+            catch (ShortUrlExpiredException ex)
+            {
+                var error = new ErrorContract(StatusCodes.Status410Gone, ex.Message, ErrorTitles.RedirectUrlFailedErrorTitle);
+
+                return new ObjectResult(error)
+                {
+                    StatusCode = StatusCodes.Status410Gone,
+                };
+            }
         }
     }
 }
