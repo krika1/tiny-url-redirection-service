@@ -2,18 +2,21 @@
 using TinyUrl.RedirectionService.Bussines.Services;
 using TinyUrl.RedirectionService.Infrastructure.Entites;
 using TinyUrl.RedirectionService.Infrastructure.Repositories;
+using TinyUrl.RedirectionService.Infrastructure.Services;
 
 namespace TinyUrl.RedirectionService.UnitTests.Tests
 {
     public class UrlMappingServiceTests
     {
         private readonly Mock<IUrlMappingRepository> _mockUrlMappingRepository;
+        private readonly Mock<ICacheService> _mockCacheService;
         private readonly UrlMappingService _urlShortener; // Assuming the class is UrlShortener
 
         public UrlMappingServiceTests()
         {
             _mockUrlMappingRepository = new Mock<IUrlMappingRepository>();
-            _urlShortener = new UrlMappingService(_mockUrlMappingRepository.Object);
+            _mockCacheService = new Mock<ICacheService>();
+            _urlShortener = new UrlMappingService(_mockUrlMappingRepository.Object, _mockCacheService!.Object);
         }
 
         [Fact]

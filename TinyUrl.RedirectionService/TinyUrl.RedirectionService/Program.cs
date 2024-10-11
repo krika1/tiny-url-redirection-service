@@ -22,6 +22,7 @@ namespace TinyUrl.RedirectionService
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddMemoryCache();
 
             builder.Services.Configure<MongoDbOptions>(
                 builder.Configuration.GetSection("MongoDbOptions"));
@@ -35,6 +36,7 @@ namespace TinyUrl.RedirectionService
             builder.Services.AddScoped<MongoDbContext>();
 
             builder.Services.AddScoped<IUrlMappingService, UrlMappingService>();
+            builder.Services.AddScoped<ICacheService, CacheService>();
             builder.Services.AddScoped<IUrlMappingRepository, UrlMappingRepository>();
 
             var app = builder.Build();
