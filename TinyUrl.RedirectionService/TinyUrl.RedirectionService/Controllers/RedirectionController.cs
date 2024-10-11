@@ -1,5 +1,4 @@
-﻿using Amazon.Runtime.Internal;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TinyUrl.RedirectionService.Infrastructure.Services;
 
 namespace TinyUrl.RedirectionService.Controllers

@@ -1,4 +1,5 @@
-﻿using TinyUrl.RedirectionService.Infrastructure.Repositories;
+﻿using TinyUrl.RedirectionService.Infrastructure.Entites;
+using TinyUrl.RedirectionService.Infrastructure.Repositories;
 using TinyUrl.RedirectionService.Infrastructure.Services;
 
 namespace TinyUrl.RedirectionService.Bussines.Services
@@ -6,19 +7,35 @@ namespace TinyUrl.RedirectionService.Bussines.Services
     public class UrlMappingService : IUrlMappingService
     {
         private readonly IUrlMappingRepository _urlMappingRepository;
+        private readonly ICacheService _cacheService;
 
-        public UrlMappingService(IUrlMappingRepository urlMappingRepository)
+        public UrlMappingService(IUrlMappingRepository urlMappingRepository, ICacheService cacheService)
         {
             _urlMappingRepository = urlMappingRepository;
+            _cacheService = cacheService;
         }
 
         public async Task<string> GetLongUrlAsync(string shortUrl)
         {
-            var urlMapping = await _urlMappingRepository.GetUrlMapping(shortUrl).ConfigureAwait(false);
+            var urlMapping = GetFromCache(shortUrl);
 
-            if (urlMapping is null) return null!;
+            if (urlMapping is null)
+            {
+                urlMapping = await _urlMappingRepository.GetUrlMapping(shortUrl).ConfigureAwait(false);
+
+                if (urlMapping is null) return null!;
+
+                _cacheService.SetValue(shortUrl, urlMapping);
+            }
 
             return urlMapping.LongUrl!;
+        }
+
+        private UrlMapping? GetFromCache(string shortUrl)
+        {
+            var urlMapping = _cacheService.GetValue(shortUrl);
+
+            return urlMapping as UrlMapping;
         }
     }
 }
