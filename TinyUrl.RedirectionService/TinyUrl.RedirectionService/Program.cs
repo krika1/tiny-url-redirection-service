@@ -39,6 +39,8 @@ namespace TinyUrl.RedirectionService
             builder.Services.AddScoped<ICacheService, CacheService>();
             builder.Services.AddScoped<IUrlMappingRepository, UrlMappingRepository>();
 
+            builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
