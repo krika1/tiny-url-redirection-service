@@ -10,10 +10,12 @@ namespace TinyUrl.RedirectionService.Controllers
     public class RedirectionController : ControllerBase
     {
         private readonly IUrlMappingService _urlMappingService;
+        private readonly IRabbitMQService _rabbitMQService;
 
-        public RedirectionController(IUrlMappingService urlMappingService)
+        public RedirectionController(IUrlMappingService urlMappingService, IRabbitMQService rabbitMQService)
         {
             _urlMappingService = urlMappingService;
+            _rabbitMQService=rabbitMQService;
         }
 
         [HttpGet("{shortUrl}")]
@@ -27,6 +29,8 @@ namespace TinyUrl.RedirectionService.Controllers
                 var longUrl = await _urlMappingService.GetLongUrlAsync(Uri.UnescapeDataString(shortUrl)).ConfigureAwait(false);
 
                 if (longUrl is null) return NotFound();
+
+                _rabbitMQService.SendToQueue(shortUrl);
 
                 return Redirect(longUrl);
             }
