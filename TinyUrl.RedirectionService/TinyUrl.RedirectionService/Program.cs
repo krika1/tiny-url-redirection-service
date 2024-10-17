@@ -38,6 +38,7 @@ namespace TinyUrl.RedirectionService
             builder.Services.AddScoped<IUrlMappingService, UrlMappingService>();
             builder.Services.AddScoped<ICacheService, CacheService>();
             builder.Services.AddScoped<IUrlMappingRepository, UrlMappingRepository>();
+            builder.Services.AddScoped<IUserLimitRepository, UserLimitRepository>();
 
             builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
 

@@ -11,11 +11,12 @@ namespace TinyUrl.RedirectionService.Controllers
     {
         private readonly IUrlMappingService _urlMappingService;
         private readonly IRabbitMQService _rabbitMQService;
-
-        public RedirectionController(IUrlMappingService urlMappingService, IRabbitMQService rabbitMQService)
+        private readonly ILogger<RedirectionController> _logger;
+        public RedirectionController(IUrlMappingService urlMappingService, IRabbitMQService rabbitMQService, ILogger<RedirectionController> logger)
         {
             _urlMappingService = urlMappingService;
             _rabbitMQService=rabbitMQService;
+            _logger = logger;
         }
 
         [HttpGet("{shortUrl}")]
@@ -36,11 +37,24 @@ namespace TinyUrl.RedirectionService.Controllers
             }
             catch (ShortUrlExpiredException ex)
             {
+                _logger.LogError(ex.Message);
+
                 var error = new ErrorContract(StatusCodes.Status410Gone, ex.Message, ErrorTitles.RedirectUrlFailedErrorTitle);
 
                 return new ObjectResult(error)
                 {
                     StatusCode = StatusCodes.Status410Gone,
+                };
+            }
+            catch (DailyCallsExceededException ex)
+            {
+                _logger.LogError(ex.Message);
+
+                var error = new ErrorContract(StatusCodes.Status429TooManyRequests, ex.Message, ErrorTitles.RedirectUrlFailedErrorTitle);
+
+                return new ObjectResult(error)
+                {
+                    StatusCode = StatusCodes.Status429TooManyRequests,
                 };
             }
         }

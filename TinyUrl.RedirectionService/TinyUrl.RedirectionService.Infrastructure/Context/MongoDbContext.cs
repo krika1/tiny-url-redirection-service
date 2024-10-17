@@ -9,6 +9,7 @@ namespace TinyUrl.RedirectionService.Infrastructure.Context
     {
         private readonly IMongoDatabase _mongoDatabase;
         private const string URL_MAPPING_COLLECTION = "UrlsMapping";
+        private const string USERS_LIMIT_COLLECTION = "UsersLimit";
         private readonly MongoDbOptions _options;
 
         public MongoDbContext(IMongoClient mongoClient, IOptions<MongoDbOptions> options)
@@ -18,5 +19,6 @@ namespace TinyUrl.RedirectionService.Infrastructure.Context
         }
 
         public IMongoCollection<UrlMapping> UrlMappings => _mongoDatabase.GetCollection<UrlMapping>(URL_MAPPING_COLLECTION);
+        public IMongoCollection<UserLimit> UsersLimit => _mongoDatabase.GetCollection<UserLimit>(USERS_LIMIT_COLLECTION);
     }
 }

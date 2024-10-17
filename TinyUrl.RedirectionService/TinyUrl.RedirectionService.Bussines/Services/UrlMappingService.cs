@@ -10,11 +10,13 @@ namespace TinyUrl.RedirectionService.Bussines.Services
     {
         private readonly IUrlMappingRepository _urlMappingRepository;
         private readonly ICacheService _cacheService;
+        private readonly IUserLimitRepository _userLimitRepository;
 
-        public UrlMappingService(IUrlMappingRepository urlMappingRepository, ICacheService cacheService)
+        public UrlMappingService(IUrlMappingRepository urlMappingRepository, ICacheService cacheService, IUserLimitRepository userLimitRepository)
         {
             _urlMappingRepository = urlMappingRepository;
             _cacheService = cacheService;
+            _userLimitRepository = userLimitRepository;
         }
 
         public async Task<string> GetLongUrlAsync(string shortUrl)
@@ -30,6 +32,7 @@ namespace TinyUrl.RedirectionService.Bussines.Services
                 _cacheService.SetValue(shortUrl, urlMapping);
             }
 
+            await CheckForDailyLimitExceeded(urlMapping!);
             CheckExpiringDate(urlMapping!);
 
             return urlMapping.LongUrl!;
@@ -47,6 +50,14 @@ namespace TinyUrl.RedirectionService.Bussines.Services
             if (mapping.ExpirationDate <= DateTime.Now)
             {
                 throw new ShortUrlExpiredException(ErrorMessages.ShortUrlExpiredErrorMessage);
+            }
+        }
+
+        private async Task CheckForDailyLimitExceeded(UrlMapping mapping)
+        {
+            if (await _userLimitRepository.IsUserLimitExceededAsync(mapping!.UserId).ConfigureAwait(false))
+            {
+                throw new DailyCallsExceededException(ErrorMessages.UserDailyCallLimitExceededErrorMessage);
             }
         }
     }
